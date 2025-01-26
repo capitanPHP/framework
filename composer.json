@@ -15,6 +15,7 @@
         "issues": "https://github.com/capitanPHP/framework/issues",
         "source": "https://github.com/capitanPHP/framework"
     },
+    "version": "0.0.0.1",
     "require": {
         "php": "^8.3"
     },
