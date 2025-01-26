@@ -1,6 +1,6 @@
 {
     "name": "capitan/framework",
-    "description": "PHP Libraries",
+    "description": "PHP Framework",
     "keywords": ["capitan","capitanPHP","framework","PHP"],
     "license": "MIT",
     "homepage": "https://github.com/capitanPHP/framework",
@@ -10,7 +10,6 @@
             "email": "capitanphp@tutamail.com"
         }
     ],
-    "type": "project",
     "support": {
         "issues": "https://github.com/capitanPHP/framework/issues",
         "source": "https://github.com/capitanPHP/framework"
@@ -20,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "capitan\\framework\\": "src"
+            "capitan\\": "framework\\src"
         }
     }
 }
