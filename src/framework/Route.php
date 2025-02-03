@@ -74,11 +74,8 @@ class Route
             
             if (!empty($matches[1])) Param::$data['key'] = $matches[1];
             $rule = $rules[$rulesKey];
-            if (!empty($rule['pattern'])) {
-                Param::$data['pattern'] = $rule['pattern'];
-                Param::verify();
-            }
-            
+            if (!empty($rule['pattern'])) Param::$data['pattern'] = $rule['pattern'];
+            Param::verify();
             return $rule['template'];
         }
     }

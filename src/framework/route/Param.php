@@ -36,15 +36,21 @@ class Param
         array_combine(Param::$data['key'],Param::$data['value']);
         extract(Param::$data);
 
-        if (empty(Param::$data['pattern']))return;
-        
         $param =array_filter($param);
+        
         if (count($param)) {
-            array_filter($pattern,function($value,$key) use ($param){
-                if (preg_match('/' . $value . '/',$param[$key]) === 0) {
-                    throw new \Exception($key . ' = ' . $param[$key] .': 不是有效的参数');
-                }
-            },ARRAY_FILTER_USE_BOTH);
+            if (!empty($pattern)){
+                array_filter($pattern,function($value,$key) use ($param){
+                    if (preg_match('/' . $value . '/',$param[$key]) === 0) {
+                        
+                        error([
+                            'message'   =>  $key . ' = ' . $param[$key] .': Not a valid parameter',
+                            'code'  =>  2
+                        ]);
+                    }
+                },ARRAY_FILTER_USE_BOTH);
+            }
+            
         }
         Param::$data['param'] =$param;
     }
