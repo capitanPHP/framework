@@ -5,7 +5,7 @@ class Container
 {
     /*****************************
      * PURPOSE: 
-     *          - 单例模式1
+     *          - 单例模式
      * INPUT: 
      * 		
      * OUTPUT: 
