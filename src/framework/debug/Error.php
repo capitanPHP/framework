@@ -36,30 +36,30 @@ class Error extends \Exception
     }
     public function error($errno, $errstr, $errfile, $errline)
     {
-        dump([$errno, $errstr, $errfile, $errline]);
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
 
-        
-        
-        
-        
-        
-        
-        
+        $errnos = [
+            1   => E_ERROR,
+            2   => E_WARNING,
+            4   => E_PARSE,
+            8   => E_NOTICE,
+            256 => E_USER_ERROR,
+            512 => E_USER_WARNING,
+            1024    => E_USER_NOTICE,
+            2047    => E_ALL,
+            2048    => E_STRICT,
+            4095    => E_ALL,
+            4096    => E_RECOVERABLE_ERROR,
+            8192    => E_DEPRECATED, 
+        ];
+
+        echo $this->template([
+            'message'   =>  $errstr,
+            'file'   =>  $this->pathLetterFirst(str_replace('$this->main->getRootDir()','',$errfile)),
+            'line'   =>  $errline,
+            'action'  =>  $errnos[$errno],
+            'trace' =>  '',
+        ]);
     }
     public function exception($exc)
     {

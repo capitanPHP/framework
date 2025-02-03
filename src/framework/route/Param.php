@@ -6,7 +6,7 @@
 *************************************************************************
 * Copyright (c) 2025 CapitanPHP.
 *************************************************************************
-* Licensed (https:
+* Licensed (https://opensource.org/license/MIT)
 *************************************************************************
 * Author: capitan <capitanPHP@tutamail.com>
 **************************************************************************/
@@ -31,9 +31,12 @@ class Param
    
     public static function verify() : void
     {
+        if (empty(Param::$data['key']))return;
         self::$data['param'] = 
         array_combine(Param::$data['key'],Param::$data['value']);
         extract(Param::$data);
+
+        if (empty(Param::$data['pattern']))return;
         
         $param =array_filter($param);
         if (count($param)) {
@@ -48,7 +51,7 @@ class Param
    
     public static function parsing(String $uri) : String
     {
-        $uris =preg_split('/[\/\-_]/',$uri);
+        $uris =preg_split('/[\/\-_]/',self::filterNative($uri));
         switch (count($uris)) {
             case 1:
                 [
@@ -74,6 +77,13 @@ class Param
         $p2 = isset($p2) ? $p2 : null;
 
         self::$data['value'] = [$p1,$p2];
-        return '/^' .parse_url($name)['path'] . '\/(\{[a-zA-Z]+\})(?:\/(\{[a-zA-Z]+\}))?$/';
+        return '/^' .self::filterNative($name) . '(?:\/(\{[a-zA-Z]+\}))?(?:\/(\{[a-zA-Z]+\}))?(?:\?.*)?$/';
+
+        // return '/^' .parse_url($name)['path'] . '\/(\{[a-zA-Z]+\})(?:\/(\{[a-zA-Z]+\}))?$/';
+    }
+   
+    public static function filterNative(String $path) : String
+    {
+        return parse_url($path)['path'];
     }
 }

@@ -6,7 +6,7 @@
 *************************************************************************
 * Copyright (c) 2025 CapitanPHP.
 *************************************************************************
-* Licensed (https:
+* Licensed (https://opensource.org/license/MIT)
 *************************************************************************
 * Author: capitan <capitanPHP@tutamail.com>
 **************************************************************************/
@@ -56,26 +56,29 @@ class Route
                 call_user_func_array($route['mtds'], array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY));
             }
         }
-        
+        // return '404 Not Found';
     }
    
     public function bind()
     {
         $uri =ltrim($this->uri,'/');
-
-        $rulesKey = Rule::parsing($uri);
+        $rules = Rule::$rules;
+        $rulesKey =Rule::parsing($uri);
         if ($rulesKey === false){
-            if ($uri === '') return Rule::$rules['/']['template'];
-            if (empty(Rule::$rules[$uri])) return $uri;
-            return Rule::$rules[$uri]['template'];
+            if ($uri === '') return $rules['/']['template'];
+            if (empty($rules[$uri])) return $uri;
+            return $rules[$uri]['template'];
             
         }else{
            preg_match_all('/\{([a-zA-Z]+)\}/', $rulesKey, $matches);
             
             if (!empty($matches[1])) Param::$data['key'] = $matches[1];
-            $rule = Rule::$rules[$rulesKey];
-            Param::$data['pattern'] = $rule['pattern'];
-            Param::verify();
+            $rule = $rules[$rulesKey];
+            if (!empty($rule['pattern'])) {
+                Param::$data['pattern'] = $rule['pattern'];
+                Param::verify();
+            }
+            
             return $rule['template'];
         }
     }
@@ -90,11 +93,7 @@ class Route
    
     protected function newController() : Array
     {
-        try {
-            $path = explode('/', trim($this->path(),'/'));
-            return [new ($this->ctrl.$path[0])(), $path[2]];
-        } catch (\Exception $e) {
-            trigger_error('路由不存在:' . $e->getMessage(), E_USER_ERROR);
-        }
+        $path = explode('/', trim($this->path(),'/'));
+        return [new ($this->ctrl.$path[0])(), $path[2]];
     }
 }
