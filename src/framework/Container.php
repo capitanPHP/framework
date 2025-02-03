@@ -3,13 +3,13 @@ declare (strict_types = 1);
 namespace capitan;
 class Container
 {
-    /* ****************************
+    /*****************************
      * PURPOSE: 
      *          - 单例模式1
      * INPUT: 
      * 		
      * OUTPUT: 
-     **************************** */
+     *****************************/
 
     // 
     protected $mr = /* 存储绑定的映射关系(Mapping relationship) */[];
