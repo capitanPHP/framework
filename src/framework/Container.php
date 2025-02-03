@@ -3,10 +3,17 @@ declare (strict_types = 1);
 namespace capitan;
 class Container
 {
+    /* ****************************
+     * PURPOSE: 
+     *          - 单例模式
+     * INPUT: 
+     * 		
+     * OUTPUT: 
+     **************************** */
 
     // 
     protected $mr = /* 存储绑定的映射关系(Mapping relationship) */[];
-    /*****************************
+    /* ****************************
      * ! #1
      * PURPOSE: 绑定抽象
      *          - 将抽象类、接口或标识符绑定到具体实现类或闭包
@@ -16,7 +23,7 @@ class Container
      *      $concrete<Closure|string|null> Class或Closure
      *      $shared<bool> 是否以单例模式绑定
      * OUTPUT: Null
-     *****************************/
+     **************************** */
     public function bind($abstract, $concrete = null, $shared = false)
     {
         if ($concrete === null) /* 如果未提供具体实现，默认使用抽象类 */$concrete = $abstract;
@@ -27,7 +34,7 @@ class Container
             'instance' => /* 用于存储单例实例 */null,
         ];
     }
-    /*****************************
+    /* ****************************
      * ! #2
      * PURPOSE: 解析绑定的抽象make
      *          - 解析绑定的抽象，返回具体的实例
@@ -35,7 +42,7 @@ class Container
      * INPUT: 
      *      $abstract<String> 抽象类、接口或标识符
      * OUTPUT: Object
-     *****************************/
+     **************************** */
     public function analytic(String $abstract) : Object
     {
         if (/* 检查是否已绑定 */!isset($this->mr[$abstract])) $this->bind($abstract);
@@ -54,14 +61,14 @@ class Container
         }
         return $instance;
     }
-    /*****************************
+    /* ****************************
      * PURPOSE: 实例化类并自动注入依赖
      *          - 使用反射自动解析类的依赖，并实例化对象
      *          - class 有构造函数(__construct())才会执行$this->build
      * INPUT: 
      *      - $concrete<Object|String> 具体实现类
      * OUTPUT: Object
-     *****************************/
+     **************************** */
     protected function build($concrete) : Object
     {
 

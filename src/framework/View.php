@@ -27,12 +27,12 @@ class View
         $this->main = $container->analytic('capitan\Main');
         $this->uri = (new Route)->bind();
     }
-    /*****************************
+    /* ****************************
      * PURPOSE: 判断视图名称格式并且创建视图模版文件
      * INPUT: 
      *      $vn 视图名称
      * OUTPUT: 
-     *****************************/
+     **************************** */
     public function isView(String $vn)
     {
         if (preg_match('/^[A-Za-z0-9\/\-\_\.]+$/',$vn)) {
@@ -44,24 +44,24 @@ class View
             /* 错误信息: 模版名称格式错误 */
         }
     }
-    /*****************************
+    /* ****************************
      * PURPOSE: 视图模版缓存
      * INPUT: 
      *     
      * OUTPUT: 
-     *****************************/
+     **************************** */
     public function isBuffer(String $routeRule)
     {
         $this->bufferFile = 
         $this->main->getBufferDir() . $this->config['buffer'] . DIRECTORY_SEPARATOR . md5($routeRule) .'.php';
     }
-    /*****************************
+    /* ****************************
      * PURPOSE: 渲染
      * INPUT: 如果$agre参数 = [0,1]
      *     $agre[0]<String|Array> view模版路径或变量Array
      *     $agre[1]<Array> 变量Array
      * OUTPUT: 
-     *****************************/
+     **************************** */
     public function render(...$argv)
     {
         /* 如果不是字符串，那么就是数组 */
@@ -104,23 +104,23 @@ class View
         include $this->bufferFile;
         echo ob_get_clean();
 	}
-    /*****************************
+    /* ****************************
      * PURPOSE: 编译HTML To PHP
      * INPUT: 
      *     
      * OUTPUT: String
-     *****************************/
+     **************************** */
     private function compile(String $template) : String
     {
         return $this->variable($template);
     }
-    /***************************** /view/render.php
+    /* **************************** /view/render.php
      * PURPOSE: 变量处理
      *          !特殊字符变量处理: 将<%= title %>中的变量替换成php变量<?php echo htmlspecialchars($' . $variable . '); ?>
      * INPUT: 
      *      $template <String>  HTML模版
      * OUTPUT: String
-     *****************************/
+     **************************** */
     public function variable($template)
     {
         $html = preg_replace_callback('/\<\%\=(.*?)\%\>/', function($matches) {

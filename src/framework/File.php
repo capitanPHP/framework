@@ -18,7 +18,7 @@ class File extends \SplFileInfo
             $this->dir = $this->getPath();
         }
     }
-    /*****************************
+    /* ****************************
      * PURPOSE: 创建文件和文件夹
      *          new File String : /root/dir2/dir3 - 自动创建 dir3 目录
      *          new File String : /root/dir2/dir3/file.tpl - 自动创建 dir3 目录，并且创建*file.tpl文件
@@ -27,7 +27,7 @@ class File extends \SplFileInfo
      *      $args[0]<Int|String>  它有可能是$mode或$text
      *      $args[1]<String>  $text
      * OUTPUT: this
-     *****************************/
+     **************************** */
     public function create(...$args) : Object
     {
         $mode = 0777;

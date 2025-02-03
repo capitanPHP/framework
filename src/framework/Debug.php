@@ -7,12 +7,12 @@ use capitan\debug\dump\render\CliRenderer;
 use capitan\debug\dump\Utilities;
 class Debug
 {
-    /*****************************
+    /* ****************************
      * PURPOSE: 转储器
      * INPUT: 
      *     
      * OUTPUT: 
-     *****************************/
+     **************************** */
     public static function dump(...$args)
     {
         // if (!defined('KINT_DIR')) {
@@ -72,12 +72,12 @@ class Debug
             return $out;
         }
     }
-    /*****************************
+    /* ****************************
      * PURPOSE: 异常、错误
      * INPUT: 
      * 		
      * OUTPUT: 
-     *****************************/
+     **************************** */
     public static function error(Array $argument = 
     [
         'message'   =>  '',

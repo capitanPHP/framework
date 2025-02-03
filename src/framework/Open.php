@@ -15,7 +15,7 @@ class Open
     }
     public function autoload()
     {
-        (new Error)->ejection();
+        (new Error)->initialize();
         require_once 'Helpers.php';
         (new Route)->set();
     }

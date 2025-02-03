@@ -23,17 +23,17 @@ class Route
         $this->config = array_merge($this->config,$config);
 
     }
-    /*****************************
+    /* ****************************
      * !PURPOSE: 设置路由
      * OUTPUT: String
-     *****************************/
+     **************************** */
     public function set() : void
     {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         $this->add($requestMethod, $this->path(), $this->newController());
         $this->dispatch($requestMethod, $this->path());
     }
-    /*****************************
+    /* ****************************
      * PURPOSE: 添加路由
      * INPUT: 
      *      $mtd<String>: 请求方法(method)
@@ -41,21 +41,21 @@ class Route
      *      $ctrl<String>: 控制器(new controller)
      *      $mtds<Array>: 方法名(methods) [new main\http\controller\index, fn<name>]
      * OUTPUT: Null
-     *****************************/
+     **************************** */
     protected function add(String $mtd, String $ctrl, Array $mtds) : void
     {
         $ctrl = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[a-zA-Z0-9_]+)', $ctrl);
         $ctrl = '#^' . $ctrl . '$#';
         $this->routes[] = compact('mtd', 'ctrl', 'mtds');
     }
-    /*****************************
+    /* ****************************
      * PURPOSE: 调度请求
      * INPUT: 
      *     $mtd<String>: 请求方法(method)
      *          'GET', 'POST', 'PUT', 'DELETE'
      *     $ctrl<String>: $this->path()
      * OUTPUT: 
-     *****************************/
+     **************************** */
     protected function dispatch(String $mtd, String $ctrl) : void
     {
         foreach ($this->routes as $route) {
@@ -65,12 +65,12 @@ class Route
         }
         // return '404 Not Found';
     }
-    /*****************************
+    /* ****************************
      * PURPOSE: 绑定自定义路由
      * INPUT: 
      *     
      * OUTPUT: String   <module>/<controller>/<action>
-     *****************************/
+     **************************** */
     public function bind()
     {
         $uri = /* 移除第一个'/' */ltrim($this->uri,'/');
@@ -91,11 +91,11 @@ class Route
             return $rule['template'];
         }
     }
-    /*****************************
+    /* ****************************
      * PURPOSE: 获取请求路径
      *          真实的的路径: module(模块名)/controller(控制器名)/action(操作名)
      * OUTPUT: String - Such as: /index/index/index
-     *****************************/
+     **************************** */
     protected function path()
     {
         return parse_url(
@@ -103,10 +103,10 @@ class Route
             PHP_URL_PATH
         );
     }
-    /*****************************
+    /* ****************************
      * PURPOSE: 创建一个实例  
      * OUTPUT: Array OR String
-     *****************************/
+     **************************** */
     protected function newController() : Array
     {
         try {
