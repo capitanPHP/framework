@@ -1,17 +1,28 @@
 <?php
+/************************************************************************
+* @file Open.php
+*************************************************************************
+* This file is part of the CapitanPHP framework.
+*************************************************************************
+* Copyright (c) 2025 CapitanPHP.
+*************************************************************************
+* Licensed (https:
+*************************************************************************
+* Author: capitan <capitanPHP@tutamail.com>
+**************************************************************************/
 declare (strict_types = 1);
 namespace capitan;
 use capitan\Route;
 use capitan\debug\Error;
 class Open
 {
-    protected $ini = /* 所有的初始化配置文件 */[
+    protected $ini =[
         'route.php'
     ];
 
     public function __construct()
     {
-        // $this->root = realpath(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
+        
     }
     public function autoload()
     {

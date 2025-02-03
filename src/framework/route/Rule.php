@@ -1,25 +1,32 @@
 <?php
+/************************************************************************
+* @file Rule.php
+*************************************************************************
+* This file is part of the CapitanPHP framework.
+*************************************************************************
+* Copyright (c) 2025 CapitanPHP.
+*************************************************************************
+* Licensed (https:
+*************************************************************************
+* Author: capitan <capitanPHP@tutamail.com>
+**************************************************************************/
+declare (strict_types = 1);
 namespace capitan\route;
 class Rule
 {
 
-    public static $rules = /* 初始化路由规则 */[
+    public static $rules =[
         '/'  =>  [
             'template' =>  'index/index/index'
         ],
     ];
-    /*****************************
-     * PURPOSE: 解析
-     * INPUT: 
-     *     
-     * OUTPUT: Array [KEY => "argument/{sid}/{id}"]
-     *****************************/
+   
     public static function parsing(String $uri) : String|Bool
     {
         $pattern = Param::parsing($uri);
         $result = 
         array_filter(
-            /* 获取Rules Array key */array_keys(Rule::$rules), 
+           array_keys(Rule::$rules), 
             function ($key) use ($pattern){
                 return preg_match($pattern, $key);
             }
