@@ -6,7 +6,7 @@
 *************************************************************************
 * Copyright (c) 2025 CapitanPHP.
 *************************************************************************
-* Licensed (https://opensource.org/license/MIT)
+* Licensed (https:
 *************************************************************************
 * Author: capitan <capitanPHP@tutamail.com>
 **************************************************************************/
@@ -35,19 +35,15 @@ class Main
     {
         return $this->getRootDir() . 'main' . DIRECTORY_SEPARATOR;
     }
-    public function getLogsDir()
-    {
-        return $this->getRootDir() . 'logs' . DIRECTORY_SEPARATOR;
-    }
     public function getBufferDir()
     {
         return $this->getRootDir() . 'buffer' . DIRECTORY_SEPARATOR;
     }
-    public function getIniDir()/* Initialization初始化配置文件夹路径 */
+    public function getIniDir()
     {
         return $this->getRootDir() . 'ini' . DIRECTORY_SEPARATOR;
     }
-    public function getIniFile(String $fn)/* 加载ini中的配置 */
+    public function getIniFile(String $fn)
     {
         return require $this->getIniDir() . $fn . '.php';
     }

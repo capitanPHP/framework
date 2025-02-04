@@ -41,7 +41,7 @@ class File extends \SplFileInfo
         if (!empty($args[1])) $text = $args[1];
 
         if ($this->isFile() === false){
-            if (!file_exists($this->dir) && !is_dir($this->dir))mkdir($this->dir, $mode, true);
+            if (!file_exists($this->dir) && !is_dir($this->dir)) mkdir($this->dir, $mode, true);
 
             if ($this->getPathType === 'file'){
                 file_put_contents($this->getPath(). DIRECTORY_SEPARATOR .$this->getFilename(),$text);
