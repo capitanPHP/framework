@@ -31,6 +31,6 @@ class Open
     }
     public function command($argv)
     {
-        (new Command($argv))->run();
+        (new Command($argv))->run(); 
     }
 }
