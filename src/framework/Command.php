@@ -1,6 +1,7 @@
 <?php
+
 /************************************************************************
-* @file Open.php
+* @file Command.php
 *************************************************************************
 * This file is part of the CapitanPHP framework.
 *************************************************************************
@@ -10,27 +11,29 @@
 *************************************************************************
 * Author: capitan <capitanPHP@tutamail.com>
 **************************************************************************/
-declare (strict_types = 1);
-namespace capitan;
-use capitan\debug\Error;
-class Open
-{
-    protected $ini =[
-        'route.php'
-    ];
 
-    public function __construct()
+declare(strict_types=1);
+namespace capitan;
+class Command
+{
+    protected$param = [];
+    public function __construct($argv)
     {
+        $this->parem($argv);
         
     }
-    public function autoload()
+   
+    public function run()
     {
-        (new Error)->initialize();
-        require_once 'Helpers.php';
-        (new Route)->set();
+        echo "Starting PHP built-in web server...". PHP_EOL;
+        echo 'Listening on http:\/\/'. $this->param['-S'] .':'. $this->param['-P'] .PHP_EOL;
+        exec('php -S ' .$this->param['-S']. ':' . $this->param['-P']);
     }
-    public function command($argv)
+   
+    protected function parem($argv)
     {
-        (new Command($argv))->run();
+       array_shift($argv);
+        $chunks =array_chunk($argv, 2);
+        $this->param =array_combine(array_column($chunks, 0), array_column($chunks, 1));
     }
 }
