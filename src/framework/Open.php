@@ -29,8 +29,8 @@ class Open
         require_once 'Helpers.php';
         (new Route)->set();
     }
-    public function command($argv)
+    public function Cli($argv)
     {
-        (new Command($argv))->run(); 
+        (new Cli($argv))->run();
     }
 }
