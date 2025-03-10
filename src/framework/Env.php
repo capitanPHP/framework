@@ -6,7 +6,7 @@
 *************************************************************************
 * Copyright (c) 2025 CapitanPHP.
 *************************************************************************
-* Licensed (https://opensource.org/license/MIT)
+* Licensed (https:
 *************************************************************************
 * Author: capitan <capitanPHP@tutamail.com>
 **************************************************************************/
@@ -20,14 +20,7 @@ class Env
     {
         $this->data = parse_ini_file((new Main())->getRootDir().'.env',true,INI_SCANNER_RAW);
     }
-    /* ****************************
-     * PURPOSE: 获取.env环境变量值
-     * INPUT: 
-     * 		    $key 
-     * 		    $value
-     * OUTPUT: 
-     *          null | string
-     **************************** */
+   
     public static function get(string $key = null,$default = null)
     {
         if ($key === null) return (new self)->data;
