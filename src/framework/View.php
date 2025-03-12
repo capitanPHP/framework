@@ -6,7 +6,7 @@
 *************************************************************************
 * Copyright (c) 2025 CapitanPHP.
 *************************************************************************
-* Licensed (https://opensource.org/license/MIT)
+* Licensed (https:
 *************************************************************************
 * Author: capitan <capitanPHP@tutamail.com>
 **************************************************************************/
@@ -17,6 +17,7 @@ use capitan\File;
 use capitan\view\Syntax;
 class View
 {
+    use Syntax;
     protected$getViewHtml = '';
     protected$viewFile = '';
     protected$bufferFile = '';
@@ -80,7 +81,7 @@ class View
         if (!$this->bufferFileObj->isFile() || $this->viewFileObj->getMTime() > $this->bufferFileObj->getMTime() || $this->config['debug']) {
             if ($this->bufferFileObj->isFile()) unlink($this->bufferFileObj->getPathname());
             
-            $this->getViewHtml = Syntax::compile(file_get_contents($this->viewFile));
+            $this->getViewHtml = $this->compile(file_get_contents($this->viewFile));
             $this->bufferFileObj->create($this->getViewHtml);
         }
        extract($variable);

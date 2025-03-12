@@ -1,6 +1,6 @@
 <?php
 /************************************************************************
-* @file Syntax.php
+* @file File.php
 *************************************************************************
 * This file is part of the CapitanPHP framework.
 *************************************************************************
@@ -10,24 +10,20 @@
 *************************************************************************
 * Author: capitan <capitanPHP@tutamail.com>
 **************************************************************************/
-declare (strict_types = 1);
+declare(strict_types=1);
 namespace capitan\view;
-trait Syntax {
-    use Variable,File,Conditional,Traversal;
-    
-    
+trait File
+{
    
-    public function compile(String $template) : String
+    protected function include(String $template) : String
     {
-        $template =preg_replace('/<!--[\s\S]*?-->/','',$template);
-
-        $template = $this->include($template);
-        $template = $this->variable($template);
-        
-        $template = $this->conditional($template);
-        $template = $this->traversal($template);
-        
-
-        return $template;
+        return preg_replace_callback('/%(\=|\-)\s*include\((.*?)\)\s*%/', function($mts) {
+            $file = 
+            $this->main->getViewDir() . 
+            trim($mts[2],"'\"") . 
+            $this->config['suffix'];
+            return file_get_contents($file);
+           
+        }, $template);
     }
 }
