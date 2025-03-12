@@ -32,6 +32,9 @@ trait Helpers
             if (!empty($this->statement['WHERE']['OR'])) {
                 $statementS .= ' OR '.$this->statement['WHERE']['OR'];
             }
+            if (!empty($this->statement['WHERE']['NOT'])) {
+                $statementS .= ' NOT '.$this->statement['WHERE']['NOT'];
+            }
             if ($statementS !== '') $statementS = " WHERE $statementS";
             
 

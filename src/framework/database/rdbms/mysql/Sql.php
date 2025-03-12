@@ -17,8 +17,15 @@ class Sql extends PDO
         'GEQ' =>'>=',
         'LT' =>'<',
         'LEQ' =>'<=',
+        'NOT' =>'!=',
         'BETWEEN' =>'BETWEEN',
-        'NOT BETWEEN' =>'NOT BETWEEN'
+        'NOT BETWEEN' =>'NOT BETWEEN',
+        'IN' =>'IN',
+        'NOT IN' =>'NOT IN',
+        'LIKE' =>'LIKE',
+        'NOT LIKE' =>'NOT LIKE',
+        'IS' =>'IS',
+        'IS NOT' =>'IS NOT'
     ];
     public function __construct()
     {
@@ -36,11 +43,4 @@ class Sql extends PDO
             die("Connection failed: " . $e->getMessage());
         }
     }
-   
-    
-    
-    
-    
-    
-    
 }

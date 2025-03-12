@@ -15,17 +15,16 @@ namespace capitan\database\rdbms\mysql;
 trait Conditional
 {
    
-    public function where(...$conditional)
+    public function where(...$conditional) : self
     {
-        $vn =
-        ['field','operator','value','LO'];
+        $vn =['field','operator','value','LO'];
         
-        if (is_array($conditional[0])) {
+        if (is_array($conditional[0])){
            
             for ($i=0; $i < count($conditional[0]); $i++) {
                 $this->where(...$conditional[0][$i]);
             }
-        }else{
+        } else{
            
             $num = count($conditional);
             if ($num == 2) {
@@ -37,33 +36,22 @@ trait Conditional
             $operator =strtoupper($operator);
             if (is_string($value)) $value ="'" . addslashes($value) . "'";
             $LO =strtoupper($LO);
-           
             if (in_array(
                 $operator,
                 array_merge(
                     array_keys($this->comparisonOperator),
                     array_values($this->comparisonOperator)
                 )
-            )) $this->whereComparisonOperator(
-                $field,
-                ctype_alpha($operator) ? $this->comparisonOperator[$operator] : $operator,
-                $value,
-                $LO
-            );
+            )) {
+               
+                $operator = ctype_alpha($operator) ? $this->comparisonOperator[$operator] : $operator;
+                if (in_array($operator,['BETWEEN','NOT BETWEEN'])) $value = implode(' AND ',$value);
+                if (in_array($operator,['IN','NOT IN'])) $value = "(".implode(',',$value).")";
+                if ($value === null) $value = 'NULL';
+                $this->statement['WHERE'][$LO][] = "$field $operator $value";
+            }
         }
 
         return $this;
-    }
-   
-    public function whereComparisonOperator(
-        string $field,
-        string $operator,
-        $value = null,
-        string $LO = 'AND') : void
-    {
-        if (in_array($operator,['BETWEEN','NOT BETWEEN'])) {
-            $value = implode(' AND ',$value);
-        }
-        $this->statement['WHERE'][$LO][] = "$field $operator $value";
     }
 }
