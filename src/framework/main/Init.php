@@ -1,6 +1,6 @@
 <?php
 /************************************************************************
-* @file Main.php
+* @file Init.php
 *************************************************************************
 * This file is part of the CapitanPHP framework.
 *************************************************************************
@@ -11,12 +11,8 @@
 * Author: capitan <capitanPHP@tutamail.com>
 **************************************************************************/
 declare (strict_types = 1);
-namespace capitan;
-class Main extends \capitan\main\Init
+namespace capitan\main;
+class Init
 {
-    const VERSION = '0.1.0';
-    public function __construct()
-    {
-        
-    }
+    use Get;
 }
