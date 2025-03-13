@@ -6,7 +6,7 @@
 *************************************************************************
 * Copyright (c) 2025 CapitanPHP.
 *************************************************************************
-* Licensed (https:
+* Licensed (https://opensource.org/license/MIT)
 *************************************************************************
 * Author: capitan <capitanPHP@tutamail.com>
 **************************************************************************/
@@ -15,9 +15,18 @@ namespace capitan\route;
 trait Rule
 {
    
-    public function parsing(String $uri) : String|Bool
+    public function parsingRule() : String|Bool
     {
-        $pattern = $this->conver($uri);
+       
+        $methodNameLen = strpos($this->uri, $this->config['separator']);
+        if ($methodNameLen === false) {
+           
+            $methodName = $this->uri;
+        }else{
+            $methodName = substr($this->uri, 0, $methodNameLen);
+        }
+        
+        $pattern = '/^' . $methodName . '(?:\/(\{[a-zA-Z]+\}))?(?:\/(\{[a-zA-Z]+\}))?(?:\?.*)?$/';
         $result = 
         array_filter(
            array_keys($this->rules), 

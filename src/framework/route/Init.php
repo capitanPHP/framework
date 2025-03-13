@@ -6,24 +6,27 @@
 *************************************************************************
 * Copyright (c) 2025 CapitanPHP.
 *************************************************************************
-* Licensed (https:
+* Licensed (https://opensource.org/license/MIT)
 *************************************************************************
 * Author: capitan <capitanPHP@tutamail.com>
 **************************************************************************/
 namespace capitan\route;
 class Init
 {
-    use Rule,Param,\capitan\main\Get;
+    use Rule,Param,Helpers,\capitan\main\Get;
+   
+    private static $init = false;
+
     protected $routes = [];
     protected $rules =[
         '/'  =>  [
             'template' =>  'index/index/index'
         ],
     ];
-    protected $data =[
+    public $params =[
         'key' => [],
         'value' => [],
-        'param'    =>  [],
+        'param'    => [],
         'pattern'   => []
     ];
     protected $ctrl ='main\http\controllers\\';
@@ -34,14 +37,13 @@ class Init
         'suffix'    => false
     ];
 
-    protected $inis =[];
+    protected $request =null;
 
     public function __construct()
     {
-        $this->uri = $_SERVER['REQUEST_URI'];
+        $this->uri = $this->removeDynamicParam(ltrim($_SERVER['REQUEST_URI'],'/'));
         extract($this->getIniFile('route'));
         $this->rules = array_merge($this->rules,$rules);
         $this->config = array_merge($this->config,$config);
-
     }
 }

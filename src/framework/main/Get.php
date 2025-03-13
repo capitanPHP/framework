@@ -44,7 +44,7 @@ trait Get
     }
     public function getIniFile(String $fn)
     {
-        return require_once $this->getIniDir() . $fn . '.php';
+        return require $this->getIniDir() . $fn . '.php';
     }
     public function getViewDir()
     {

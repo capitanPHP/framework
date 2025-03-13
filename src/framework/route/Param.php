@@ -15,75 +15,57 @@ namespace capitan\route;
 trait Param
 {
    
-    public function get(...$argument)
+    public function getParam(...$argument)
     {
-        $param = $this->data['param'];
-        if (count($argument) === 0) return $param;
+        $params = $this->getParams();
+        if (count($argument) === 0) return $params;
 
-        return empty($param[$argument[0]]) ? null : $param[$argument[0]];
+        return empty($params[$argument[0]]) ? null : $params[$argument[0]];
     }
    
-    public function verify() : void
+    public function getParams() : array
     {
-        if (empty(Param::$data['key']))return;
-        self::$data['param'] = 
-        array_combine(Param::$data['key'],Param::$data['value']);
-        extract(Param::$data);
+        $ruleKey = $this->parsingRule();
+        $rulesKey =preg_split('/[\/\-_]/',$ruleKey);
+        $uris =preg_split('/[\/\-_]/',$this->uri);
 
-        $param =array_filter($param);
-        
-        if (count($param)) {
-            if (!empty($pattern)){
-                array_filter($pattern,function($value,$key) use ($param){
-                    if (preg_match('/' . $value . '/',$param[$key]) === 0) {
-                        
-                        error([
-                            'message'   =>  $key . ' = ' . $param[$key] .': Not a valid parameter',
-                            'code'  =>  2
-                        ]);
-                    }
-                },ARRAY_FILTER_USE_BOTH);
+       
+        $differ = count($rulesKey) - count($uris);
+        if ($differ > 0){
+            for ($i=0; $i < $differ; $i++) { 
+                $uris[] = null;
             }
-            
-        }
-        Param::$data['param'] =$param;
-    }
-   
-    public function conver(String $uri) : String
-    {
-        $uris =preg_split('/[\/\-_]/',self::filterNative($uri));
-        switch (count($uris)) {
-            case 1:
-                [
-                    $name
-                ] = $uris;
-                break;
-            case 2:
-                [
-                    $name, 
-                    $p1
-                ] = $uris;
-                break;
-            default:
-                [
-                    $name, 
-                   $p1, 
-                   $p2
-                ] = $uris;
-                break;
+        }else{
+            $uris = array_slice($uris,0,count($rulesKey));
         }
 
-        $p1 = isset($p1) ? $p1 : null;
-        $p2 = isset($p2) ? $p2 : null;
+       
+        $params = [];
+        foreach (array_combine($rulesKey,$uris) as $key => $value) {
+            preg_match('/\{([a-zA-Z]+)\}/', $key, $matches);
+            count($matches) > 0 && $params[$matches[1]] = $value;
+        }
 
-        $this->data['value'] = [$p1,$p2];
-        return '/^' .self::filterNative($name) . '(?:\/(\{[a-zA-Z]+\}))?(?:\/(\{[a-zA-Z]+\}))?(?:\?.*)?$/';
+        
+        $params =array_filter($params);
+       
+        $iniActiveRule = $this->rules[$ruleKey];
+        $patterns =$iniActiveRule['pattern'];
+        
+        if (!empty($pattern)){
+           
+            array_filter($patterns,function($pattern,$key) use ($params){
+                if (preg_match("/$pattern/",$params[$key]) === 0) {
+                    
+                    error([
+                        'message'   =>  $key . ' = ' . $params[$key] .': Not a valid parameter',
+                        'code'  =>  0
+                    ]);
+                }
+            },ARRAY_FILTER_USE_BOTH);
+        }
 
-        // return '/^' .parse_url($name)['path'] . '\/(\{[a-zA-Z]+\})(?:\/(\{[a-zA-Z]+\}))?$/';
-    }
-   
-    public function filterNative(String $path) : String
-    {
-        return parse_url($path)['path'];
+       
+        return $params;
     }
 }

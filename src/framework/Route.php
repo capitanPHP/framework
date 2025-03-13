@@ -6,7 +6,7 @@
 *************************************************************************
 * Copyright (c) 2025 CapitanPHP.
 *************************************************************************
-* Licensed (https:
+* Licensed (https://opensource.org/license/MIT)
 *************************************************************************
 * Author: capitan <capitanPHP@tutamail.com>
 **************************************************************************/
@@ -38,26 +38,18 @@ class Route extends \capitan\route\Init
                 call_user_func_array($route['mtds'], array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY));
             }
         }
-        
+        // return '404 Not Found';
     }
    
-    public function bind()
+    protected function bind()
     {
-        $uri =ltrim($this->uri,'/');
-        $rules = $this->rules;
-        $rulesKey =$this->parsing($uri);
+        $rulesKey =$this->parsingRule();
         if ($rulesKey === false){
-            if ($uri === '') return $rules['/']['template'];
-            if (empty($rules[$uri])) return $uri;
-            return $rules[$uri]['template'];
-            
+            if ($this->uri === '') return$this->rules['/']['template'];
+            if (empty($this->rules[$this->uri])) return$this->uri;
+            return $this->rules[$this->uri]['template'];
         }else{
-           preg_match_all('/\{([a-zA-Z]+)\}/', $rulesKey, $matches);
-            
-            if (!empty($matches[1])) $this->data['key'] = $matches[1];
-            $rule = $rules[$rulesKey];
-            if (!empty($rule['pattern'])) $this->data['pattern'] = $rule['pattern'];
-            $this->verify();
+            $rule = $this->rules[$rulesKey];
             return $rule['template'];
         }
     }
