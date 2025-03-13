@@ -12,24 +12,18 @@
 **************************************************************************/
 declare (strict_types = 1);
 namespace capitan\route;
-class Param
+trait Param
 {
-    public static $data =[
-        'key' => [],
-        'value' => [],
-        'param'    =>  [],
-        'pattern'   => []
-    ];
    
-    public static function get(...$argument)
+    public function get(...$argument)
     {
-        $param = self::$data['param'];
+        $param = $this->data['param'];
         if (count($argument) === 0) return $param;
 
         return empty($param[$argument[0]]) ? null : $param[$argument[0]];
     }
    
-    public static function verify() : void
+    public function verify() : void
     {
         if (empty(Param::$data['key']))return;
         self::$data['param'] = 
@@ -55,7 +49,7 @@ class Param
         Param::$data['param'] =$param;
     }
    
-    public static function parsing(String $uri) : String
+    public function conver(String $uri) : String
     {
         $uris =preg_split('/[\/\-_]/',self::filterNative($uri));
         switch (count($uris)) {
@@ -82,13 +76,13 @@ class Param
         $p1 = isset($p1) ? $p1 : null;
         $p2 = isset($p2) ? $p2 : null;
 
-        self::$data['value'] = [$p1,$p2];
+        $this->data['value'] = [$p1,$p2];
         return '/^' .self::filterNative($name) . '(?:\/(\{[a-zA-Z]+\}))?(?:\/(\{[a-zA-Z]+\}))?(?:\?.*)?$/';
 
         // return '/^' .parse_url($name)['path'] . '\/(\{[a-zA-Z]+\})(?:\/(\{[a-zA-Z]+\}))?$/';
     }
    
-    public static function filterNative(String $path) : String
+    public function filterNative(String $path) : String
     {
         return parse_url($path)['path'];
     }

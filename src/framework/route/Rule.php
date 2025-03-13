@@ -6,27 +6,21 @@
 *************************************************************************
 * Copyright (c) 2025 CapitanPHP.
 *************************************************************************
-* Licensed (https://opensource.org/license/MIT)
+* Licensed (https:
 *************************************************************************
 * Author: capitan <capitanPHP@tutamail.com>
 **************************************************************************/
 declare (strict_types = 1);
 namespace capitan\route;
-class Rule
+trait Rule
 {
-
-    public static $rules =[
-        '/'  =>  [
-            'template' =>  'index/index/index'
-        ],
-    ];
    
-    public static function parsing(String $uri) : String|Bool
+    public function parsing(String $uri) : String|Bool
     {
-        $pattern = Param::parsing($uri);
+        $pattern = $this->conver($uri);
         $result = 
         array_filter(
-           array_keys(Rule::$rules), 
+           array_keys($this->rules), 
             function ($key) use ($pattern){
                 return preg_match($pattern, $key);
             }
